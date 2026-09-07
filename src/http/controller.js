@@ -35,34 +35,37 @@ export function getBookById (req, res) {
     return res.json({book : DB[id]});
 }
 
-export function updateBook(req, res) {
+export function replaceBook(req, res) { // Renamed to match PUT intent
     const bookId = req.params.id;
-    const updatedData = req.body;
+    const replacedData = req.body;
 
-    if (DB[bookId] == null) {
-        return res.json({message: "Book with the ID not available"})
+    if (!DB[bookId]) {
+        return res.status(404).json({ message: "Book not found" });
     }
 
-    DB[bookId] = {...DB[bookId], ...updatedData, book_id: bookId}
-
-    res.json({
-        message: "Book updated succesfully",
-        data: DB[bookId]
-    })
-}
-
-export function replaceBook(req, res){
-    const bookId =  req.params.id;
-    const replacedData =  req.body;
-
-    if(DB[bookId] = null) {
-        return res.json({message: "Book with the ID can't be replaced"})
-    }
-
-    DB[bookId] = { ...replacedData, book_id: bookId}
+    // PUT: Completely overwrite. Do NOT spread ...DB[bookId]
+    DB[bookId] = { ...replacedData, book_id: bookId }; 
 
     res.json({
         message: "Book replaced successfully",
+        data: DB[bookId]
+    });
+}
+
+
+export function updateBook(req, res) { // Renamed to match PATCH intent
+    const bookId = req.params.id;
+    const updatedData = req.body;
+
+    if (!DB[bookId]) {
+        return res.status(404).json({ message: "Book not found" });
+    }
+
+    // PATCH: Merge old data with new data
+    DB[bookId] = { ...DB[bookId], ...updatedData, book_id: bookId };
+
+    res.json({
+        message: "Book updated successfully",
         data: DB[bookId]
     });
 }
