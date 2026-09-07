@@ -7,8 +7,8 @@ router.get('/', controller.home);
 router.post('/books', controller.upload);
 router.get('/books', controller.getBooks);
 router.get('/books/:id', controller.getBookById);
-router.put('/books/:id', controller.replaceBook); // PUT = Replace
-router.patch('/books/:id', controller.updateBook); // PATCH = Update
+router.put('/books/:id', controller.replaceBook); 
+router.patch('/books/:id', controller.updateBook); 
 
 
 export default router;
