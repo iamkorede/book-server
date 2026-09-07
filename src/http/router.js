@@ -8,5 +8,6 @@ router.post('/books', controller.upload);
 router.get('/books', controller.getBooks);
 router.get('/books/:id', controller.getBookById);
 router.put('/books/:id', controller.updateBook)
+router.patch('/books/:id', controller.replaceBook)
 
 export default router;

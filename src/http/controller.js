@@ -50,3 +50,19 @@ export function updateBook(req, res) {
         data: DB[bookId]
     })
 }
+
+export function replaceBook(req, res){
+    const bookId =  req.params.id;
+    const replacedData =  req.body;
+
+    if(DB[bookId] = null) {
+        return res.json({message: "Book with the ID can't be replaced"})
+    }
+
+    DB[bookId] = { ...replacedData, book_id: bookId}
+
+    res.json({
+        message: "Book replaced successfully",
+        data: DB[bookId]
+    });
+}
