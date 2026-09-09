@@ -57,8 +57,8 @@ export function updateBook(req, res) { // Renamed to match PATCH intent
     const bookId = req.params.id;
     const updatedData = req.body;
 
-    if (!DB[bookId]) {
-        return res.status(404).json({ message: "Book not found" });
+    if (DB[bookId] == null) {
+        return res.json({ message: "Book not found" });
     }
 
     // PATCH: Merge old data with new data
@@ -68,4 +68,16 @@ export function updateBook(req, res) { // Renamed to match PATCH intent
         message: "Book updated successfully",
         data: DB[bookId]
     });
+}
+
+
+export function deleteBook(req, res) {
+    const bookId = req.params.id
+    const deletedData = req.body
+
+    if (DB[bookId] == null) {
+        return res.json({ message: "Book not found" });
+    }
+    delete DB[bookId];
+    return res.json({ message: "Book deleted successfully" });
 }
