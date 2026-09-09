@@ -43,7 +43,7 @@ export function replaceBook(req, res) { // Renamed to match PUT intent
         return res.status(404).json({ message: "Book not found" });
     }
 
-    // PUT: Completely overwrite. Do NOT spread ...DB[bookId]
+   //Completely overwrite. Do NOT spread ...DB[bookId]
     DB[bookId] = { ...replacedData, book_id: bookId }; 
 
     res.json({
