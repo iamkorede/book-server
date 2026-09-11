@@ -30,7 +30,7 @@ export function getBooks (req, res) {
 export function getBookById (req, res) {
     const {id} = req.params
     if (DB [id] == null) {
-        res.json({"message": "Book with the ID is not available"})
+        res.json({"message": "Book with the ID is not available in the libray"})
     }
     return res.json({book : DB[id]});
 }
@@ -76,8 +76,8 @@ export function deleteBook(req, res) {
     const deletedData = req.body
 
     if (DB[bookId] == null) {
-        return res.json({ message: "Book not found" });
+        return res.json({ message: "Book not found in library!!" });
     }
     delete DB[bookId];
-    return res.json({ message: "Book deleted successfully" });
+    return res.json({ message: "Book deleted from the library successfully" });
 }
