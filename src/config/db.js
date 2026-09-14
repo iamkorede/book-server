@@ -1,5 +1,8 @@
-const DB = {
+export const DB = {
 
 };
 
-export default DB
+export const AUTH = {
+
+};
+

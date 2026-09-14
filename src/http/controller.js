@@ -1,13 +1,53 @@
-import DB from "../config/db.js"
-import express from "express"
+import {DB, AUTH} from "../config/db.js"
+
 
 /**
 * 
 * 
 */
-export function home (req, res) {
-    return res.json({"message": "Welcome to my book server"})
+
+export function signup (req, res) {
+    const { username, password, email, fullname } = req.body;
+
+    if (!username || !password || !email || !fullname){
+        return res.status(400).json({message: "error, invalid field provided"})
+    }
+
+    if (AUTH[email] != undefined) {
+        return res.status(400).json({message: "error, user already exist"})
+    }
+
+    AUTH[email] = { username, password, email, fullname, token: null };
+    return res.json({"message": "Welcome to patricks book server"})
 }
+
+export function login (req, res) {
+    const { password, email } = req.body;
+
+    if (!password || !email){
+        return res.status(400).json({message: "error, invalid field provided"})
+    }
+    let user = AUTH[email];
+    if (user == undefined) {
+        return res.status(400).json({message: "error, user doesnt exist"})
+    }
+
+    let bufferObj = Buffer.from(email, "utf8");
+    let token = bufferObj.toString("base64")
+
+    return res.json({"message": "Welcome to patricks book server", data : { token }})
+}
+
+
+
+export function home (req, res) {
+    const { authorization } = req.headers;
+
+    console.log(authorization)
+    return res.json({"message": "Welcome to patricks book server"})
+}
+
+
 
 export function upload (req, res) {
     const {book_id, book_title, book_author} = req.body;
@@ -81,3 +121,5 @@ export function deleteBook(req, res) {
     delete DB[bookId];
     return res.json({ message: "Book deleted from the library successfully" });
 }
+
+
