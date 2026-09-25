@@ -11,7 +11,6 @@ router.post("/books",authmiddleware, controller.upload);
 router.get("/books",authmiddleware, controller.getBooks);
 router.get("/books/:id",authmiddleware, controller.getBookById);
 router.put("/books/:id",authmiddleware, controller.replaceBook);
-router.patch("/books/:id",authmiddleware, controller.updateBook);
 router.delete("/books/:id",authmiddleware, controller.deleteBook);
 
 

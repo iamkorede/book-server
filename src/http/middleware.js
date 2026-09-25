@@ -1,6 +1,7 @@
-import {AUTH} from "../config/db.js";
+import { db } from "../config/db.js";
+import { User } from "../repo/repo.js";
 
-export default function authmiddleware(req, res, next) {
+export default async function authmiddleware(req, res, next) {
     let auth = req.headers["authorization"]
     if (!auth){
         return res.status(401).json({"message": "Unauthorized"})
@@ -8,12 +9,15 @@ export default function authmiddleware(req, res, next) {
     let bufferObj = Buffer.from(auth?.split(" ")?.[1], "base64")
     const email = bufferObj.toString("utf-8")
 
+    
     if (!email) {
         return res.status(401).json({"message": "Unauthorized"})
     }
-    if (AUTH[email] == null) {
+    const user_repo = new User(db);    
+    const user = await user_repo.getByEmail(email)
+    if (user == null) {
         return res.status(401).json({"message": "Unauthorized"})
     }
-    req.user = AUTH[email]
+    req.user = user
     next();
 }
