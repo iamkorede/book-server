@@ -46,7 +46,6 @@ export class Books{
 
     async getAll({ user_id }){
         const [result] = await this.db.query("SELECT * from books where  user_id = ?", [user_id]);
-
         return result;
     }
 

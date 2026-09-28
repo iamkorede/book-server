@@ -11,6 +11,7 @@ export const env = {
     DB_HOST: $.DB_HOST,
     DB_USER: $.DB_USER,
     DB_NAME: $.DB_NAME,
+    JWT: $.JWT_SECRET_KEY
 };
 
 

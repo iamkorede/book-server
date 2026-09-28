@@ -7,6 +7,7 @@ const router = express.Router();
 router.get("/", authmiddleware, controller.home);
 router.post("/signup",  controller.signup);
 router.post("/login", controller.login);
+router.get("/logout",authmiddleware, controller.logout);
 router.post("/books",authmiddleware, controller.upload);
 router.get("/books",authmiddleware, controller.getBooks);
 router.get("/books/:id",authmiddleware, controller.getBookById);
