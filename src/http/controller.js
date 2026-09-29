@@ -10,10 +10,6 @@ import { env } from "../config/env.js";
 export async function signup (req, res) {
     const { username, password, email, fullname } = req.body;
 
-    if (!username || !password || !email || !fullname){
-        return res.status(400).json({message: "error, invalid field provided"})
-    }
-
     const user_repo = new User(db);    
     const user = await user_repo.getByEmail(email)
 
@@ -31,9 +27,6 @@ export async function signup (req, res) {
 export async function login (req, res) {
     const { password, email } = req.body;
 
-    if (!password || !email){
-        return res.status(400).json({message: "error, invalid field provided"})
-    }
     const user_repo = new User(db);    
     const user = await user_repo.getByEmail(email)
 
@@ -128,4 +121,27 @@ export async function deleteBook(req, res) {
     return res.json({ message: "Book deleted from the library successfully" });
 }
 
+export async function uploadDb (req, res) {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ error: 'No file uploaded' });
+    }
 
+    const { originalname, mimetype, buffer, size } = req.file;
+
+    const [result] = await db.query(
+    "INSERT INTO uploaded_files (name, mime_type, data, size) VALUES (?, ?, ?, ?)",
+    [originalname, mimetype, buffer, size],
+    );
+
+    return res.status(201).json({
+    message: "File saved",
+    id: result.insertId,
+    filename: originalname,
+    size,
+    });
+
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to save file to database' });
+    }
+    };
